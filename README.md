@@ -11,6 +11,10 @@ import shutil
 # Create Environtment
 #
 
+subject_dir = os.getcwd()
+dti_dir = os.path.abspath( os.path.join(subject_dir, 'dti'))
+dti_input_dir = os.path.abspath( os.path.join(dti_dir, 'input'))
+
 output_prefix    = 'eddy'
 output_path      = '../methods/eddy'
 
