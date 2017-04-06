@@ -1,7 +1,7 @@
 # DTIFIT
 
 #
-# Creating a script to run dtifit
+# Creating a script to run dtifit on all patients 
 #
 
 #
@@ -35,6 +35,7 @@ dti30_b0_brain_mask = 'bet.b0.dti30_mask.nii.gz'
 #
 # DTI Correction
 #
+
 dti = fsl.DTIFit()
 dti.inputs.dwi = os.path.join(input_path, eddy_prefix + '.nii.gz')
 dti.inputs.bvecs = os.path.join(input_path, eddy_prefix + 'rotated.bvecs')
