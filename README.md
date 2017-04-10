@@ -24,6 +24,10 @@ from nipype.interfaces import fsl
 # Sets working directory and calls the dti and input folders
 
 subject_dir = os.getcwd()
+temp = subject_dir.split(os.sep)  # splits the string into a list, using the os.sep char (/ in *nix)
+if '.py' in temp[-1]:  # if the last element has '.py' in it
+   temp.pop()  # pop off the last element.
+subject_dir = os.sep.join(temp)  # rejoin the elements of the list into a string, using the os.sep character between each element
 if '.py' in subject_dir[-1]:
    subject_dir.pop()
 # Debugging directory check
