@@ -24,6 +24,14 @@ from nipype.interfaces import fsl
 # Sets working directory and calls the dti and input folders
 
 subject_dir = os.getcwd()
+if '.py' in subject_dir[-1]:
+   subject_dir.pop()
+# Debugging directory check
+for root, subdir, files in os.walk(subject_dir):
+    print('root:', root)
+    print('subdir:', subdir)
+    print('files:',files)
+    break
 dti_dir = os.path.abspath( os.path.join(subject_dir, 'dti'))
 dti_input_dir = os.path.abspath( os.path.join(dti_dir, 'input'))
 
@@ -43,17 +51,25 @@ infinite_path = os.path.join(os.getenv('INFINITE_PATH'), 'infinite')
 dti30 = 'dti30.nii.gz'
 dti30_b0_brain = 'bet.b0.dti30.nii.gz'
 dti30_b0_brain_mask = 'bet.b0.dti30_mask.nii.gz'
+# Debugging Check
+print('Quitting for debugging purposes')
+quit()
 
 #
 # DTI Correction
 #
 
-dti = fsl.DTIFit()
+##dti = fsl.DTIFit()
 #dti.inputs.dwi = os.path.abspath(os.path.join(input_path, eddy_prefix + '.nii.gz'))
-dti.inputs.dwi = '/gandg/infinite/imaging_data/individuals/inf0117/1/dti/input/eddy.nii.gz'
-#dti.inputs.bvecs = os.path.join(input_path, eddy_prefix + 'rotated.bvecs')
-dti.inputs.bvecs = '/gandg/infinite/imaging_data/individuals/inf0117/1/dti/input/eddy.eddy_rotated_bvecs'
-dti.inputs.bvals = os.path.abspath(os.path.join(infinite_path, 'dti30.bval')) 
-dti.inputs.base_name = output_path
-dti.inputs.mask = dti30_b0_brain_mask
-dti.cmdline
+##dti.inputs.dwi = os.path.join(input_path, eddy_prefix + '.nii.gz'))
+# Full file-path for reference
+#dti.inputs.dwi = '/gandg/infinite/imaging_data/individuals/inf0117/1/dti/input/eddy.nii.gz'
+##dti.inputs.bvecs = os.path.join(input_path, eddy_prefix + 'rotated.bvecs')
+# Full file-path for reference
+#dti.inputs.bvecs = '/gandg/infinite/imaging_data/individuals/inf0117/1/dti/input/eddy.eddy_rotated_bvecs'
+##dti.inputs.bvals = os.path.abspath(os.path.join(infinite_path, 'dti30.bval')) 
+#dti.inputs.base_name = output_path
+##dti.inputs.mask = dti30_b0_brain_mask
+# Full file-path for reference
+#dti.inputs.mask = '/gandg/infinite/imaging_data/individuals/inf0117/1/dti/input/bet.b0.dti30_mask.nii.gz'
+##dti.cmdline
