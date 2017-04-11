@@ -1,18 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-# emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-
-# vi: set ft=python sts=4 ts=4 sw=4 et:
-
-# DTIFIT
-
-#
-# Creating a script to run dtifit on all patients 
-#
-
-#
-# Import Modules
-#
-
 import _utilities as util
 import os
 from nipype.interfaces import fsl
@@ -32,12 +17,12 @@ subject_dir = os.sep.join(temp)  # rejoin the elements of the list into a string
 if '.py' in subject_dir[-1]:
    subject_dir.pop()
 print(subject_dir)
-# Debugging directory check
-for root, subdir, files in os.walk(subject_dir):
-    print('root:', root)
-    print('subdir:', subdir)
-    print('files:',files)
-    break
+### Debugging directory check
+###for root, subdir, files in os.walk(subject_dir):
+###    print('root:', root)
+###    print('subdir:', subdir)
+###    print('files:',files)
+###    break
 dti_dir = os.path.abspath( os.path.join(subject_dir, 'dti'))
 dti_input_dir = os.path.abspath( os.path.join(dti_dir, 'input'))
 print('DTI Directory')
@@ -63,9 +48,9 @@ infinite_path = os.path.join(os.getenv('INFINITE_PATH'), 'infinite')
 dti30 = 'dti30.nii.gz'
 dti30_brain = 'bet.b0.dti30.nii.gz'
 dti30_mask = 'bet.b0.dti30_mask.nii.gz'
-# Debugging Check
-#print('Quitting for debugging purposes')
-#quit()
+### Debugging Check
+###print('Quitting for debugging purposes')
+###quit()
 
 #
 # DTI Correction
@@ -75,10 +60,13 @@ dti = fsl.DTIFit()
 dti.inputs.dwi = os.path.join(input_path, eddy_prefix + '.nii.gz')
 dti.inputs.bvecs = os.path.join(input_path, eddy_prefix + '.eddy_rotated_bvecs')
 dti.inputs.bvals = os.path.abspath(os.path.join(infinite_path, 'dti30.bval')) 
-dti.inputs.base_name = 'dtifit_'
-#dti.inputs.base_name = os.path.join(output_basename)
+dti.inputs.base_name = output_basename
 dti.inputs.mask = os.path.join(input_path, dti30_mask)
-dti.out = output_basename
 dti.cmdline
+
+# Creating output directory if doesn't exist
+if not os.path.exists(output_basename):
+	os.makedirs(output_basename)
+
 print('DTI Command line')
 print(dti.cmdline)
