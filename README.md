@@ -40,9 +40,13 @@ for root, subdir, files in os.walk(subject_dir):
 dti_dir = os.path.abspath( os.path.join(subject_dir, 'dti'))
 dti_input_dir = os.path.abspath( os.path.join(dti_dir, 'input'))
 dti_output_dir = os.path.abspath( os.path.join(dti_dir, 'dtifit'))
+print('DTI Directory')
 print(dti_dir)
+print('DTI Input Directory')
 print(dti_input_dir)
+print('DTI Output Directory')
 print(dti_output_dir)
+
 # Shortcuts to save time later
 eddy_prefix    = 'eddy'
 input_path      = dti_input_dir
@@ -50,7 +54,9 @@ output_prefix   = 'dtifit'
 output_path     = dti_output_dir
 
 # Where I want the data to be stored
-output_basename = os.path.abspath(os.path.join(dti_dir, output_path, output_prefix))
+output_basename = os.path.abspath(os.path.join(output_path))
+print('Output Basename')
+print(output_basename)
 
 # Where I call my bval from
 infinite_path = os.path.join(os.getenv('INFINITE_PATH'), 'infinite')
@@ -68,13 +74,10 @@ dti30_b0_brain_mask = 'bet.b0.dti30_mask.nii.gz'
 #
 
 dti = fsl.DTIFit()
-#dti.inputs.dwi = os.path.abspath(os.path.join(input_path, eddy_prefix + '.nii.gz'))
 dti.inputs.dwi = os.path.join(input_path, eddy_prefix + '.nii.gz')
-# Full file-path for reference dti.inputs.dwi = '/gandg/infinite/imaging_data/individuals/inf0117/1/dti/input/eddy.nii.gz'
 dti.inputs.bvecs = os.path.join(input_path, eddy_prefix + '.eddy_rotated_bvecs')
-# Full file-path for reference dti.inputs.bvecs = '/gandg/infinite/imaging_data/individuals/inf0117/1/dti/input/eddy.eddy_rotated_bvecs'
 dti.inputs.bvals = os.path.abspath(os.path.join(infinite_path, 'dti30.bval')) 
-dti.inputs.base_name = output_path
+dti.inputs.base_name = 'dtifit_'
 dti.inputs.mask = os.path.join(input_path, dti30_b0_brain_mask)
-# Full file-path for reference dti.inputs.mask = '/gandg/infinite/imaging_data/individuals/inf0117/1/dti/input/bet.b0.dti30_mask.nii.gz'
+#dti.output = output_path
 dti.cmdline
