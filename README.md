@@ -16,6 +16,7 @@
 import _utilities as util
 import os
 from nipype.interfaces import fsl
+import shutil
 
 #
 # Create Environtment
@@ -39,22 +40,19 @@ for root, subdir, files in os.walk(subject_dir):
     break
 dti_dir = os.path.abspath( os.path.join(subject_dir, 'dti'))
 dti_input_dir = os.path.abspath( os.path.join(dti_dir, 'input'))
-dti_output_dir = os.path.abspath( os.path.join(dti_dir, 'dtifit'))
 print('DTI Directory')
 print(dti_dir)
 print('DTI Input Directory')
 print(dti_input_dir)
-print('DTI Output Directory')
-print(dti_output_dir)
 
 # Shortcuts to save time later
 eddy_prefix    = 'eddy'
 input_path      = dti_input_dir
 output_prefix   = 'dtifit'
-output_path     = dti_output_dir
+output_path     = '../dti/dtifit'
 
 # Where I want the data to be stored
-output_basename = os.path.abspath(os.path.join(output_path))
+output_basename = os.path.abspath(os.path.join(dti_dir, output_path))
 print('Output Basename')
 print(output_basename)
 
@@ -63,8 +61,8 @@ infinite_path = os.path.join(os.getenv('INFINITE_PATH'), 'infinite')
 
 # More shortcuts to save time and space
 dti30 = 'dti30.nii.gz'
-dti30_b0_brain = 'bet.b0.dti30.nii.gz'
-dti30_b0_brain_mask = 'bet.b0.dti30_mask.nii.gz'
+dti30_brain = 'bet.b0.dti30.nii.gz'
+dti30_mask = 'bet.b0.dti30_mask.nii.gz'
 # Debugging Check
 #print('Quitting for debugging purposes')
 #quit()
@@ -78,6 +76,9 @@ dti.inputs.dwi = os.path.join(input_path, eddy_prefix + '.nii.gz')
 dti.inputs.bvecs = os.path.join(input_path, eddy_prefix + '.eddy_rotated_bvecs')
 dti.inputs.bvals = os.path.abspath(os.path.join(infinite_path, 'dti30.bval')) 
 dti.inputs.base_name = 'dtifit_'
-dti.inputs.mask = os.path.join(input_path, dti30_b0_brain_mask)
-#dti.output = output_path
+#dti.inputs.base_name = os.path.join(output_basename)
+dti.inputs.mask = os.path.join(input_path, dti30_mask)
+dti.out = output_basename
 dti.cmdline
+print('DTI Command line')
+print(dti.cmdline)
